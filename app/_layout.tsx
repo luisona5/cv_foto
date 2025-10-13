@@ -37,14 +37,6 @@ export default function RootLayout() {
           options={{ title: "Educación" }}
         />
         
-        {/* 🚀 NUEVA PANTALLA: SKILLS (Habilidades) 🚀 */}
-        <Stack.Screen 
-          name="skills" // <-- Si tu archivo es 'app/skills.tsx'
-          options={{ 
-            title: "Habilidades/Skills" // El título que se mostrará en la barra
-          }}
-        />
-        {/* ------------------------------------------- */}
 
         <Stack.Screen
           name="preview"

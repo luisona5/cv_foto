@@ -21,6 +21,9 @@ export default function HomeScreen() {
   const hasExperience = cvData.experiences.length > 0;
   const hasEducation = cvData.education.length > 0;
   const hasPhoto = !!cvData.personalInfo.profileImage;
+  const hasSkills = cvData.skills && cvData.skills.length > 0; // Se comprueba si hay skills
+
+
 
   return (
     <ScrollView
@@ -28,7 +31,7 @@ export default function HomeScreen() {
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={true}
     >
-      <Text style={styles.title}>Crea tu CV Profesional</Text>
+      <Text style={styles.title}>CV Profesional</Text>
 
       {/* Sección: Foto de Perfil */}
       <View style={styles.section}>
@@ -102,6 +105,21 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
+      <View style={styles.previewSection}>
+          <Text style={styles.sectionTitle}>4. Habilidades</Text>
+        <Text style={styles.status}>
+          {hasSkills
+            ? `✓ ${cvData.skills.length } agregada(s)`
+            : "Pendiente"}
+        </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push("/skill")} 
+        >
+        <Text style={styles.buttonText}>Agregar</Text>
+        </TouchableOpacity>
+        </View>
+
       {/* Botón de Vista Previa - Más grande y visible */}
       <View style={styles.previewSection}>
         <TouchableOpacity
@@ -113,6 +131,9 @@ export default function HomeScreen() {
           <Text style={styles.previewButtonText}>Ver Vista Previa del CV</Text>
         </TouchableOpacity>
       </View>
+
+      
+      
 
       {/* Espacio adicional al final para evitar que el último elemento quede oculto */}
       <View style={styles.bottomSpacer} />

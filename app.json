@@ -41,7 +41,8 @@
         {
           "photosPermission": "La app necesita acceso a tus fotos para seleccionar tu foto de perfil."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "router": {},

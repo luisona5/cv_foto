@@ -30,6 +30,8 @@ export default function SkillsScreen() {
       setSkillName('');
       setSkillLevel('Básico'); // Resetear al nivel predeterminado
     }
+
+    
   };
 
   const renderSkill = ({ item }: { item: Skill }) => (
@@ -57,7 +59,7 @@ export default function SkillsScreen() {
       <View style={styles.inputGroup}>
         <TextInput
           style={styles.input}
-          placeholder="Habilidad (Ej: Ingles)"
+          placeholder="Ej: Python, JavaScript, ..."
           value={skillName}
           onChangeText={setSkillName}
         />
@@ -78,18 +80,19 @@ export default function SkillsScreen() {
 
          <NavigationButton
          
-          title="Añadir Habilidad" 
+          title="Añadir " 
           onPress={handleAddSkill} 
         />
+
         <NavigationButton
-                title="Cancelar"
+                title="Volver"
                 onPress={() => router.back()}
                 variant="secondary"
               />
       </View>
 
       {/* Lista de habilidades añadidas */}
-      <Text style={styles.listTitle}>Habilidades Añadidas ({cvData.skills.length})</Text>
+      <Text style={styles.listTitle}>Habilidades Ingresadas ({cvData.skills.length})</Text>
       <FlatList
         data={cvData.skills}
         renderItem={renderSkill}
@@ -100,8 +103,6 @@ export default function SkillsScreen() {
         )}
       />
 
-      {/* Botón de navegación (ejemplo, ajusta según tu NavigationButton) */}
-      {/* <NavigationButton title="Continuar a la Previsualización" destination="preview" /> */}
     </View>
   );
 }
@@ -130,10 +131,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: 1,
   },
   input: {
-    height: 50,
+    height: 60,
     borderColor: '#ddd',
     borderWidth: 1,
     paddingHorizontal: 10,
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 15,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 6,
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     flex: 1,
-    height: 50,
+    height: 60,
   },
   listTitle: {
     fontSize: 18,
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   skillLevelText: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#666',
     marginTop: 3,
   },
@@ -213,6 +214,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
+    
   },
   emptyListText: {
     textAlign: 'center',

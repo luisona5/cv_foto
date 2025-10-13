@@ -105,6 +105,8 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* HABILIDADES*/}
+
       <View style={styles.previewSection}>
           <Text style={styles.sectionTitle}>4. Habilidades</Text>
         <Text style={styles.status}>

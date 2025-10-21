@@ -14,20 +14,16 @@ interface CVPreviewProps {
 export const CVPreview = ({ cvData }: CVPreviewProps) => {
     const { personalInfo, experiences, education, skills } = cvData;
 
-    // Función que genera el PDF y lo comparte
     const printToFile = useCallback(async () => {
         try {
-            // 1. Generar el HTML usando la función separada
             const htmlContent = generateCVHtml(cvData);
 
-            // 2. Generar el PDF
             const { uri } = await Print.printToFileAsync({
                 html: htmlContent,
             });
 
             console.log('PDF guardado temporalmente en:', uri);
 
-            // 3. Compartir/Abrir el PDF
             if (await Sharing.isAvailableAsync()) {
                 await Sharing.shareAsync(uri, {
                     mimeType: 'application/pdf',
@@ -54,7 +50,6 @@ export const CVPreview = ({ cvData }: CVPreviewProps) => {
                 />
             </View>
 
-            {/* Previsualización normal de React Native (tu código original) */}
             <ScrollView style={styles.container}>
                 <View style={styles.content}>
                     {/* Header con foto */}
@@ -236,6 +231,7 @@ const styles = StyleSheet.create({
         lineHeight: 20,
         marginTop: 4,
     },
+
     skillsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',

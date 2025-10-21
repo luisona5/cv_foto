@@ -8,10 +8,10 @@ import {
   StyleSheet, 
   TouchableOpacity,
    
+  
 } from 'react-native';
-// Asegúrate de tener instalado: npx expo install @react-native-picker/picker
 import { Picker } from '@react-native-picker/picker'; 
-import { useCVContext } from '../context/CVContext'; // Usamos useCVContext como lo definiste
+import { useCVContext } from '../context/CVContext'; 
 import { SkillLevel, Skill } from '../types/cv.types';
 import { NavigationButton } from "../components/NavigationButton";
 

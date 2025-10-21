@@ -12,7 +12,7 @@ interface CVContextType {
     addEducation: (edu: Education) => void;
     updateEducation: (id: string, edu: Education) => void;
     deleteEducation: (id: string) => void;
-    // Sección de Habilidades
+
     addSkill: (name: string, level: SkillLevel) => void;
     removeSkill: (id: string) => void;
     updateSkill: (id: string, name: string, level: SkillLevel) => void;
@@ -31,7 +31,7 @@ export const CVProvider = ({ children }: { children: ReactNode }) => {
         },
         experiences: [],
         education: [],
-        skills: [], // <-- Inicialización de skills
+        skills: [], 
     });
 
     const updatePersonalInfo = (info: PersonalInfo) => {
@@ -121,7 +121,7 @@ export const CVProvider = ({ children }: { children: ReactNode }) => {
                 addEducation,
                 updateEducation,
                 deleteEducation,
-                // Exportar las funciones de Habilidades
+                
                 addSkill,
                 removeSkill,
                 updateSkill,

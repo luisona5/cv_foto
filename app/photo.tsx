@@ -1,18 +1,9 @@
-// app/photo.tsx
-
-import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { NavigationButton } from "../components/NavigationButton";
-import { useCVContext } from "../context/CVContext";
+import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
+import { NavigationButton } from '../components/NavigationButton';
+import { useCVContext } from '../context/CVContext';
 
 export default function PhotoScreen() {
   const router = useRouter();
@@ -21,25 +12,17 @@ export default function PhotoScreen() {
     cvData.personalInfo.profileImage
   );
 
-  // Solicitar permisos y tomar foto con la cámara
   const takePhoto = async () => {
     try {
-      // Solicitar permisos de cámara
-      const cameraPermission =
-        await ImagePicker.requestCameraPermissionsAsync();
-
+      const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
       if (!cameraPermission.granted) {
-        Alert.alert(
-          "Permiso Denegado",
-          "Necesitamos acceso a tu cámara para tomar fotos."
-        );
+        Alert.alert('Permiso Denegado', 'Necesitamos acceso a tu cámara para tomar fotos.');
         return;
       }
 
-      // Abrir la cámara
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [1, 1], // Aspecto cuadrado
+        aspect: [1, 1],
         quality: 0.8,
       });
 
@@ -47,27 +30,19 @@ export default function PhotoScreen() {
         setSelectedImage(result.assets[0].uri);
       }
     } catch (error) {
-      Alert.alert("Error", "No se pudo abrir la cámara");
+      Alert.alert('Error', 'No se pudo abrir la cámara');
       console.error(error);
     }
   };
 
-  // Seleccionar foto de la galería
   const pickImage = async () => {
     try {
-      // Solicitar permisos de galería
-      const galleryPermission =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-
+      const galleryPermission = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (!galleryPermission.granted) {
-        Alert.alert(
-          "Permiso Denegado",
-          "Necesitamos acceso a tu galería para seleccionar fotos."
-        );
+        Alert.alert('Permiso Denegado', 'Necesitamos acceso a tu galería para seleccionar fotos.');
         return;
       }
 
-      // Abrir galería
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -79,29 +54,27 @@ export default function PhotoScreen() {
         setSelectedImage(result.assets[0].uri);
       }
     } catch (error) {
-      Alert.alert("Error", "No se pudo abrir la galería");
+      Alert.alert('Error', 'No se pudo abrir la galería');
       console.error(error);
     }
   };
 
-  // Guardar la foto
   const handleSave = () => {
     updatePersonalInfo({
       ...cvData.personalInfo,
       profileImage: selectedImage,
     });
-    Alert.alert("Éxito", "Foto guardada correctamente", [
-      { text: "OK", onPress: () => router.back() },
+    Alert.alert('Éxito', 'Foto guardada correctamente', [
+      { text: 'OK', onPress: () => router.back() },
     ]);
   };
 
-  // Eliminar foto
   const handleRemove = () => {
-    Alert.alert("Confirmar", "¿Estás seguro de eliminar la foto de perfil?", [
-      { text: "Cancelar", style: "cancel" },
+    Alert.alert('Confirmar', '¿Estás seguro de eliminar la foto de perfil?', [
+      { text: 'Cancelar', style: 'cancel' },
       {
-        text: "Eliminar",
-        style: "destructive",
+        text: 'Eliminar',
+        style: 'destructive',
         onPress: () => {
           setSelectedImage(undefined);
           updatePersonalInfo({
@@ -114,105 +87,37 @@ export default function PhotoScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Foto de Perfil</Text>
+    <View className="flex-1 p-5 bg-gray-100">
+      <Text className="text-2xl font-bold text-center text-gray-800 mb-5">Foto de Perfil</Text>
 
-      <View style={styles.imageContainer}>
+      <View className="items-center mb-8">
         {selectedImage ? (
-          <Image source={{ uri: selectedImage }} style={styles.image} />
+          <Image source={{ uri: selectedImage }} className="w-48 h-48 rounded-full border-4 border-blue-500" />
         ) : (
-          <View style={styles.placeholder}>
-            <Text style={styles.placeholderText}>Sin foto</Text>
+          <View className="w-48 h-48 rounded-full bg-gray-300 justify-center items-center border-4 border-gray-400">
+            <Text className="text-lg text-gray-600">Sin foto</Text>
           </View>
         )}
       </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.actionButton} onPress={takePhoto}>
-          <Text style={styles.actionButtonText}>📷 Tomar Foto</Text>
+      <View className="space-y-4 mb-8">
+        <TouchableOpacity className="bg-blue-500 p-4 rounded-lg items-center" onPress={takePhoto}>
+          <Text className="text-white text-lg font-semibold">📷 Tomar Foto</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionButton} onPress={pickImage}>
-          <Text style={styles.actionButtonText}>🖼️ Seleccionar de Galería</Text>
+        <TouchableOpacity className="bg-blue-500 p-4 rounded-lg items-center" onPress={pickImage}>
+          <Text className="text-white text-lg font-semibold">🖼️ Seleccionar de Galería</Text>
         </TouchableOpacity>
 
         {selectedImage && (
-          <TouchableOpacity
-            style={[styles.actionButton, styles.removeButton]}
-            onPress={handleRemove}
-          >
-            <Text style={styles.actionButtonText}>🗑️ Eliminar Foto</Text>
+          <TouchableOpacity className="bg-red-500 p-4 rounded-lg items-center" onPress={handleRemove}>
+            <Text className="text-white text-lg font-semibold">🗑️ Eliminar Foto</Text>
           </TouchableOpacity>
         )}
       </View>
 
       <NavigationButton title="Guardar" onPress={handleSave} />
-
-      <NavigationButton
-        title="Cancelar"
-        onPress={() => router.back()}
-        variant="secondary"
-      />
+      <NavigationButton title="Cancelar" onPress={() => router.back()} variant="secondary" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#2c3e50",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  imageContainer: {
-    alignItems: "center",
-    marginBottom: 30,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 3,
-    borderColor: "#3498db",
-  },
-  placeholder: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: "#e0e0e0",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 3,
-    borderColor: "#bdc3c7",
-  },
-  placeholderText: {
-    color: "#7f8c8d",
-    fontSize: 16,
-  },
-  buttonContainer: {
-    marginBottom: 20,
-  },
-  actionButton: {
-    backgroundColor: "#3498db",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 12,
-    alignItems: "center",
-  },
-  removeButton: {
-    backgroundColor: "#e74c3c",
-  },
-  actionButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-});
-
-

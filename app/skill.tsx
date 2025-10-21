@@ -1,21 +1,11 @@
-import React, { useState, } from 'react';
-import { useRouter } from "expo-router";
-import { 
-  View, 
-  Text, 
-  TextInput,  
-  FlatList, 
-  StyleSheet, 
-  TouchableOpacity,
-   
-  
-} from 'react-native';
-import { Picker } from '@react-native-picker/picker'; 
-import { useCVContext } from '../context/CVContext'; 
+import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
+import { View, Text, TextInput, FlatList, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { useCVContext } from '../context/CVContext';
 import { SkillLevel, Skill } from '../types/cv.types';
-import { NavigationButton } from "../components/NavigationButton";
+import { NavigationButton } from '../components/NavigationButton';
 
-// Niveles permitidos (debe coincidir con cv.types.ts)
 const skillLevels: SkillLevel[] = ['Básico', 'Intermedio', 'Avanzado', 'Experto'];
 
 export default function SkillsScreen() {
@@ -28,199 +18,59 @@ export default function SkillsScreen() {
     if (skillName.trim()) {
       addSkill(skillName.trim(), skillLevel);
       setSkillName('');
-      setSkillLevel('Básico'); // Resetear al nivel predeterminado
+      setSkillLevel('Básico');
     }
-
-    
   };
 
   const renderSkill = ({ item }: { item: Skill }) => (
-    <View style={styles.skillItem}>
+    <View className="flex-row justify-between items-center p-4 bg-white rounded-lg mb-2 border-l-4 border-blue-500 shadow-sm">
       <View>
-        <Text style={styles.skillName}>{item.name}</Text>
-        <Text style={styles.skillLevelText}>Nivel: <Text style={styles.skillLevelValue}>{item.level}</Text></Text>
+        <Text className="text-lg font-semibold text-gray-800">{item.name}</Text>
+        <Text className="text-sm text-gray-600 mt-1">Nivel: <Text className="font-medium text-blue-700">{item.level}</Text></Text>
       </View>
-      
-      {/* Botón de eliminación */}
-      <TouchableOpacity 
-        onPress={() => removeSkill(item.id)} 
-        style={styles.deleteButton}
-      >
-        <Text style={styles.deleteButtonText}>X</Text>
+      <TouchableOpacity onPress={() => removeSkill(item.id)} className="bg-red-500 w-8 h-8 rounded-full justify-center items-center">
+        <Text className="text-white font-bold">X</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Habilidades Técnicas</Text>
+    <View className="flex-1 p-5 bg-gray-100">
+      <Text className="text-2xl font-bold text-center text-gray-800 mb-6">Habilidades Técnicas</Text>
 
-      {/* Formulario para añadir nueva habilidad */}
-      <View style={styles.inputGroup}>
+      <View className="p-4 bg-white rounded-lg shadow-md mb-6">
         <TextInput
-          style={styles.input}
-          placeholder="Ej: Python, JavaScript, ..."
+          className="h-12 border border-gray-300 p-3 mb-4 rounded-lg text-base text-gray-800"
+          placeholder="Ej: Python, JavaScript, ... "
           value={skillName}
           onChangeText={setSkillName}
         />
-
-        {/* Picker para seleccionar el nivel */}
-        <View style={styles.pickerContainer}>
-            <Text style={styles.pickerLabel}>Nivel:</Text>
-            <Picker
-                selectedValue={skillLevel}
-                onValueChange={(itemValue) => setSkillLevel(itemValue as SkillLevel)}
-                style={styles.picker}
-            >
-                {skillLevels.map((level) => (
-                    <Picker.Item key={level} label={level} value={level} />
-                ))}
-            </Picker>
+        <View className="flex-row items-center mb-4 border border-gray-300 rounded-lg overflow-hidden">
+          <Text className="px-3 py-2 text-sm text-gray-600">Nivel:</Text>
+          <Picker
+            selectedValue={skillLevel}
+            onValueChange={(itemValue) => setSkillLevel(itemValue as SkillLevel)}
+            className="flex-1 h-12 text-base text-gray-800"
+          >
+            {skillLevels.map((level) => (
+              <Picker.Item key={level} label={level} value={level} />
+            ))}
+          </Picker>
         </View>
-
-         <NavigationButton
-         
-          title="Añadir " 
-          onPress={handleAddSkill} 
-        />
-
-        <NavigationButton
-                title="Volver"
-                onPress={() => router.back()}
-                variant="secondary"
-              />
+        <NavigationButton title="Añadir" onPress={handleAddSkill} />
+        <NavigationButton title="Volver" onPress={() => router.back()} variant="secondary" />
       </View>
 
-      {/* Lista de habilidades añadidas */}
-      <Text style={styles.listTitle}>Habilidades Ingresadas ({cvData.skills.length})</Text>
+      <Text className="text-lg font-semibold text-gray-800 mb-3">Habilidades Ingresadas ({cvData.skills.length})</Text>
       <FlatList
         data={cvData.skills}
         renderItem={renderSkill}
         keyExtractor={(item) => item.id}
-        style={styles.list}
+        className="flex-1"
         ListEmptyComponent={() => (
-            <Text style={styles.emptyListText}>Añade tus habilidades </Text>
+          <Text className="text-center text-gray-500 italic">Añade tus habilidades</Text>
         )}
       />
-
     </View>
   );
 }
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-    textAlign: 'center',
-  },
-  inputGroup: {
-    padding: 15,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 1,
-  },
-  input: {
-    height: 60,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    borderRadius: 6,
-    backgroundColor: '#fff',
-  },
-  pickerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 6,
-    backgroundColor: '#fff',
-  },
-  pickerLabel: {
-    paddingLeft: 10,
-    fontSize: 16,
-    color: '#666',
-  },
-  picker: {
-    flex: 1,
-    height: 60,
-  },
-  listTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 10,
-    color: '#333',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    paddingBottom: 5,
-  },
-  list: {
-    flex: 1,
-  },
-  skillItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 15,
-    backgroundColor: '#fff',
-    borderRadius: 6,
-    marginBottom: 10,
-    borderLeftWidth: 5,
-    borderLeftColor: '#007AFF',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  skillName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  skillLevelText: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 3,
-  },
-  skillLevelValue: {
-    fontWeight: '600',
-    color: '#152a40ff',
-  },
-  deleteButton: {
-    backgroundColor: '#ff3b30', 
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-    
-  },
-  emptyListText: {
-    textAlign: 'center',
-    marginTop: 20,
-    fontSize: 16,
-    color: '#999',
-    fontStyle: 'italic',
-  }
-});
